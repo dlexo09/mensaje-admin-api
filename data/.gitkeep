@@ -1,0 +1,3 @@
+# Este archivo mantiene la carpeta data/ en el repositorio
+# La carpeta data/ es necesaria para el funcionamiento del sistema
+# pero su contenido (logs, backups) no debe ser versionado
