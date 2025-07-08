@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGA | Ventas</title>
+
+    <!--Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="vh-100 vw-100 p-0 m-0 text-center">
+    
+    <div class="contenedor-principal container-fluid vh-100 vw-100 p-0">
+        
+        <img class="img-principal h-100 w-100"  src="assets/bg-principal.png" alt="">
+
+        <div class="txt-container d-flex justify-content-center ">
+            <p id="promotional-text">
+                <span id="loading-text">Cargando promoción...</span>
+                <span id="main-text" style="display: none;"></span>
+            </p>
+        </div>
+        
+    </div>
+
+
+    <!--Boostrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Script para cargar texto desde JSON local -->
+    <script>
+        // Configuración de la API local
+        const JSON_API_URL = 'data/promotional-text.json';
+        
+        async function loadPromotionalText() {
+            const loadingElement = document.getElementById('loading-text');
+            const mainTextElement = document.getElementById('main-text');
+            
+            try {
+                // Agregar timestamp para evitar cache
+                const response = await fetch(`${JSON_API_URL}?t=${Date.now()}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    cache: 'no-cache'  // Evitar cache del navegador
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Verificar si el contenido está activo
+                if (data.active === false) {
+                    throw new Error('Contenido desactivado');
+                }
+                
+                // Obtener el texto promocional
+                const promotionalText = data.promotional_text;
+                
+                if (promotionalText && promotionalText.trim()) {
+                    // Ocultar el texto de loading y mostrar el contenido
+                    loadingElement.style.display = 'none';
+                    mainTextElement.textContent = promotionalText;
+                    mainTextElement.style.display = 'block';
+                    
+                    // Log para debugging (opcional)
+                    console.log('Texto cargado desde JSON:', {
+                        version: data.version,
+                        updated: data.last_updated,
+                        by: data.updated_by
+                    });
+                } else {
+                    throw new Error('No se encontró texto promocional válido');
+                }
+                
+            } catch (error) {
+                console.error('Error al cargar el texto promocional:', error);
+                
+                // Mostrar texto de fallback en caso de error
+                loadingElement.style.display = 'none';
+                mainTextElement.textContent = '¡Tengo una Mega noticia! Hoy tiene la oportunidad de activar MAX de 149 pesos, a tan solo 60 pesos al mes durante 6 meses. ¿Desea aprovechar esta promoción exclusiva?';
+                mainTextElement.style.display = 'block';
+                
+                // Log del error para debugging
+                console.warn('Usando texto de fallback debido a:', error.message);
+            }
+        }
+        
+        // Cargar el texto cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', loadPromotionalText);
+        
+        // Función para recargar el contenido (útil para testing desde el admin)
+        window.reloadContent = function() {
+            const loadingElement = document.getElementById('loading-text');
+            const mainTextElement = document.getElementById('main-text');
+            
+            // Mostrar loading nuevamente
+            mainTextElement.style.display = 'none';
+            loadingElement.style.display = 'block';
+            loadingElement.textContent = 'Recargando...';
+            
+            // Recargar después de un breve delay
+            setTimeout(loadPromotionalText, 500);
+        };
+    </script>
+</body>
+
+</html>

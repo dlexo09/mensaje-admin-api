@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGA | Administrador de Contenido</title>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+    <style>
+        .admin-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .admin-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .preview-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .btn-custom {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .status-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .char-counter {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .char-counter.warning {
+            color: #ffc107;
+        }
+        
+        .char-counter.danger {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body class="admin-container">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                
+                <!-- Header -->
+                <div class="text-center text-white mb-5">
+                    <h1 class="display-4 fw-bold mb-2">
+                        <i class="bi bi-gear-fill me-3"></i>
+                        Administrador MEGA
+                    </h1>
+                    <p class="lead">Gestiona el contenido promocional del call center</p>
+                </div>
+
+                <!-- Main Card -->
+                <div class="admin-card p-4 p-md-5 position-relative">
+                    
+                    <!-- Status Badge -->
+                    <span class="badge bg-success status-badge" id="status-badge">
+                        <i class="bi bi-check-circle-fill"></i> Activo
+                    </span>
+
+                    <div class="row">
+                        <!-- Editor Column -->
+                        <div class="col-lg-6 mb-4">
+                            <h3 class="h4 mb-4">
+                                <i class="bi bi-pencil-square text-primary me-2"></i>
+                                Editor de Contenido
+                            </h3>
+                            
+                            <form id="content-form">
+                                <div class="mb-4">
+                                    <label for="promotional-text" class="form-label fw-semibold">
+                                        Texto Promocional
+                                    </label>
+                                    <textarea 
+                                        class="form-control form-control-lg" 
+                                        id="promotional-text" 
+                                        rows="6" 
+                                        placeholder="Ingresa el texto promocional aquí..."
+                                        maxlength="500"
+                                    ></textarea>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <small class="text-muted">Máximo 500 caracteres</small>
+                                        <small class="char-counter" id="char-counter">0/500</small>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="updated-by" class="form-label fw-semibold">
+                                            Actualizado por
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            id="updated-by" 
+                                            placeholder="Nombre del usuario"
+                                            value="admin"
+                                        >
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Estado</label>
+                                        <div class="form-check form-switch mt-2">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                id="active-toggle" 
+                                                checked
+                                            >
+                                            <label class="form-check-label" for="active-toggle">
+                                                Contenido activo
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                    <button type="submit" class="btn btn-custom btn-lg px-4 me-md-2">
+                                        <i class="bi bi-save me-2"></i>
+                                        Guardar Cambios
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-lg px-4" id="reset-btn">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>
+                                        Recargar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Preview Column -->
+                        <div class="col-lg-6">
+                            <h3 class="h4 mb-4">
+                                <i class="bi bi-eye text-success me-2"></i>
+                                Vista Previa
+                            </h3>
+                            
+                            <div class="preview-card p-4 mb-4">
+                                <h5 class="text-muted mb-3">Cómo se verá en el call center:</h5>
+                                <div class="bg-white p-4 rounded border">
+                                    <p class="mb-0 text-center fw-semibold" id="preview-text">
+                                        Cargando texto...
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Info Panel -->
+                            <div class="card border-info">
+                                <div class="card-header bg-info text-white">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    Información del Sistema
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <div class="h5 text-primary mb-1" id="last-updated">-</div>
+                                            <small class="text-muted">Última actualización</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="h5 text-success mb-1" id="version">-</div>
+                                            <small class="text-muted">Versión</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Test Button -->
+                            <div class="mt-4">
+                                <button class="btn btn-outline-primary w-100" id="test-api">
+                                    <i class="bi bi-lightning me-2"></i>
+                                    Probar API
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="text-center text-white mt-4">
+                    <p class="mb-0">
+                        <i class="bi bi-shield-check me-2"></i>
+                        Sistema de gestión de contenido - MEGA Call Center
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="success-toast" class="toast align-items-center text-bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle me-2"></i>
+                    ¡Cambios guardados exitosamente!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        
+        <div id="error-toast" class="toast align-items-center text-bg-danger border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Error al guardar los cambios
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="admin-script.js"></script>
+</body>
+</html>

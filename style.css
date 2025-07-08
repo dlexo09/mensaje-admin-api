@@ -1,0 +1,54 @@
+html, body {
+    overflow: hidden;
+}
+
+.contenedor-principal {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    
+}
+
+.img-principal {
+    object-fit: contain;
+}
+
+
+
+@media screen and (min-width: 1024px) {
+    .txt-container p {
+        margin-top: -570px;
+    font-size: 1.4em;
+    max-width: 450px;
+    margin-left: 200px;
+    }
+    
+}
+@media screen and (min-width: 1250px) {
+    .txt-container p {
+        margin-top: -620px;
+    font-size: 1.8em;
+    max-width: 500px;
+    margin-left: 220px;
+    }
+    
+}
+@media screen and (min-width: 1600px) {
+    .txt-container p {
+    margin-top: -700px;
+    font-size: 2.4em;
+    max-width: 700px;
+    margin-left: 290px;
+}
+    
+}
+
+@media screen and (min-width: 2000px) {
+    .txt-container p {
+    margin-top: -750px;
+    font-size: 2.4em;
+    max-width: 750px;
+    margin-left: 330px;
+}
+    
+}
