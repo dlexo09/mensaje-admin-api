@@ -1,54 +1,126 @@
-html, body {
+html,
+body {
     overflow: hidden;
 }
 
+body {
+    font-family: "Poppins", sans-serif;
+}
+
 .contenedor-principal {
+    background-image: url(assets/bg-general.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.txt-container {
+    width: 90%;
+    max-width: 850px;
+    background-color: #fff;
+    padding: 120px 140px;
+    border-radius: 30px;
     position: relative;
-    width: 100%;
-    height: 100vh;
-    
 }
 
-.img-principal {
-    object-fit: contain;
+.text-promotional {
+    font-size: 2rem;
 }
 
+.promotional-text span {
+    font-size: clamp(1.2rem, 1.08rem + 0.6vw, 1.8rem);
 
+}
 
-@media screen and (min-width: 1024px) {
-    .txt-container p {
-        margin-top: -570px;
-    font-size: 1.4em;
-    max-width: 450px;
-    margin-left: 200px;
+.title-promotion {
+    position: absolute;
+    background-color: #D8F0FF;
+    border-radius: 20px;
+    width: 70%;
+    max-width: 550px;
+    padding: 20px 0;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: uppercase;
+}
+
+.nota-txt {
+    position: absolute;
+    bottom: -70px;
+    right: -90px;
+}
+
+.nota-txt img {
+    width: 200px;
+}
+
+.mencionali-img {
+    position: absolute;
+    bottom: -70px;
+    left: -320px;
+}
+
+.mencionali-img img {
+    width: 400px;
+}
+
+@media screen and (min-width:0px) and (max-width: 767px) {
+   .txt-container { 
+    padding: 120px 30px;
+}
+}
+
+@media screen and (min-width:0px) and (max-width: 1050px) {
+    .nota-txt{
+        position: absolute;
+        bottom: -150px;
+        right: 50%;
+        transform: translateX(50%);
     }
-    
-}
-@media screen and (min-width: 1250px) {
-    .txt-container p {
-        margin-top: -620px;
-    font-size: 1.8em;
-    max-width: 500px;
-    margin-left: 220px;
-    }
-    
-}
-@media screen and (min-width: 1600px) {
-    .txt-container p {
-    margin-top: -700px;
-    font-size: 2.4em;
-    max-width: 700px;
-    margin-left: 290px;
-}
-    
+
 }
 
-@media screen and (min-width: 2000px) {
-    .txt-container p {
-    margin-top: -750px;
-    font-size: 2.4em;
-    max-width: 750px;
-    margin-left: 330px;
+@media screen and (min-width:0px) and (max-width: 1290px) {
+    .mencionali-img {
+        display: none;
+    }
+
 }
-    
+
+
+@media screen and (min-width:1290px) and (max-width: 1370px) {
+    .mencionali-img {
+        position: absolute;
+        bottom: -70px;
+        left: -220px;
+    }
+
+    .mencionali-img img {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width:1290px) and (max-width: 1370px) {
+    .mencionali-img {
+        position: absolute;
+        bottom: -70px;
+        left: -220px;
+    }
+
+    .mencionali-img img {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width:1370px) and (max-width: 1500px) {
+    .mencionali-img {
+        position: absolute;
+        bottom: -70px;
+        left: -260px;
+    }
+
+    .mencionali-img img {
+        width: 350px;
+    }
+
 }
